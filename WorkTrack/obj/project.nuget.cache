@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+NcTr/daQ3Q=",
+  "dgSpecHash": "BqgrAegoTRY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\TRAINEE-APOSTOL\\C# Project\\WorkTrack\\WorkTrack.csproj",
+  "projectFilePath": "C:\\Users\\TRAINEE-APOSTOL\\C# Project\\WorkTrack - MVC Project\\WorkTrack\\WorkTrack.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\TRAINEE-APOSTOL\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\TRAINEE-APOSTOL\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
