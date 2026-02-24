@@ -7,7 +7,7 @@ using WorkTrack.Repositories.Interfaces;
 
 namespace WorkTrack.Repositories
 {
-    public class LeaveRequestRepository
+    public class LeaveRequestRepository : ILeaveRequestRepository
     {
         private readonly AppDbContext _context;
 
