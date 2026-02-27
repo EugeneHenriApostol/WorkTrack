@@ -5,7 +5,8 @@ namespace WorkTrack.Services.Interfaces
 {
     public interface ILeaveService
     {
-        Task SubmitLeaveRequestAsync(LeaveRequest request);
+        Task SubmitLeaveRequestsAsync(LeaveRequest request);
+        Task CancelLeaveRequestAsync(int requestId, string userId);
         Task<List<LeaveRequest>> GetUserLeaveRequestAsync(string userId);
     }
 }

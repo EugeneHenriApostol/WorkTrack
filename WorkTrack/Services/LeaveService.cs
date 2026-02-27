@@ -20,7 +20,7 @@ namespace WorkTrack.Services
             _leaveTypeRepository = leaveTypeRepository;
         }
 
-        public async Task SubmitLeaveRequestAsync(LeaveRequest request)
+        public async Task SubmitLeaveRequestsAsync(LeaveRequest request)
         {
             var year = DateTime.UtcNow.Year;
 
@@ -53,6 +53,32 @@ namespace WorkTrack.Services
             await _leaveRequestRepository.AddAsync(request);
             
             await _leaveBalanceRepository.SaveChangesAsync();
+            await _leaveRequestRepository.SaveChangesAsync();
+        }
+
+        public async Task CancelLeaveRequestAsync(int requestId, string userId)
+        {
+            var request = await _leaveRequestRepository.GetByIdAsync(requestId);
+
+            if (request == null)
+            {
+                throw new Exception("Leave request not found");
+            }
+
+            if (request.UserId !=  userId)
+            {
+                throw new Exception("You can only cancel your own leave request");
+            }
+
+            if (request.Status != LeaveStatus.Pending)
+            {
+                throw new Exception("Only pending leave requests can be cancelled");
+            }
+
+            request.Status = LeaveStatus.Cancelled;
+            request.CancelledAt = DateTime.UtcNow;
+
+            await _leaveRequestRepository.UpdateAsync(request);
             await _leaveRequestRepository.SaveChangesAsync();
         }
 
