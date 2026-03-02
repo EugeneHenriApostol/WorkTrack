@@ -55,6 +55,7 @@ namespace WorkTrack.Repositories
         {
             return await _context.LeaveRequests
                 .Include(l => l.User)
+                .Include(l => l.ApprovedBy)
                 .Include(l => l.LeaveType)
                 .Where(l => l.User.ManagerId == managerId && 
                         l.Status == LeaveStatus.Pending)

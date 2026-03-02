@@ -12,6 +12,10 @@ namespace WorkTrack.Models
 
         public User? Manager { get; set; }
 
+        // Requests created by this user
         public ICollection<LeaveRequest> LeaveRequests { get; set; } = new List<LeaveRequest>();
+
+        // Requests approved by this user
+        public ICollection<LeaveRequest> ApprovedLeaveRequests { get; set; } = new List<LeaveRequest>();
     }
 }

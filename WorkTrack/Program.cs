@@ -1,29 +1,27 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using WorkTrack.Data;
 using WorkTrack.Models;
 using WorkTrack.Repositories;
-using WorkTrack.Services;
-using System.Text;
-using WorkTrack.Services.Interfaces;
 using WorkTrack.Repositories.Interfaces;
-using Microsoft.OpenApi.Models;
+using WorkTrack.Services;
+using WorkTrack.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Add services to the container
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApi();
+builder.Services.AddControllersWithViews();
 
-// database connection
+// Database connection
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// aspnet core identity
+// ASP.NET Core Identity
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 8;
@@ -36,27 +34,24 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-// dependency injection - service
+// Dependency injection - services
 builder.Services.AddScoped<ILeaveService, LeaveService>();
 builder.Services.AddScoped<IApprovalService, ApprovalService>();
 builder.Services.AddScoped<AuthService>();
 
-// dependency injection - repo
+// Dependency injection - repositories
 builder.Services.AddScoped<ILeaveBalanceRepository, LeaveBalanceRepository>();
-builder.Services.AddScoped<ILeaveRequestRepository,  LeaveRequestRepository>();
+builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
 builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 
-
 builder.Services.AddAuthorization();
-builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwagger();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
@@ -64,6 +59,9 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Auth}/{action=Login}/{id?}"
+);
 
 app.Run();
